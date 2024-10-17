@@ -3,6 +3,9 @@ project(aasdk CXX)
 
 set(base_directory ${CMAKE_CURRENT_SOURCE_DIR})
 set(sources_directory ${base_directory}/src)
+set(BOOST_ROOT "/home/sean/Documents/libboost")
+set(OPENSSL_ROOT_DIR "/home/sean/Documents/openssl")
+set(Boost_NO_SYSTEM_PATHS true)
 
 set(include_directory ${base_directory}/include)
 set(include_ut_directory ${base_directory}/include_ut)
