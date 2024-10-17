@@ -19,6 +19,8 @@
 #include <f1x/aasdk/Messenger/MessageInStream.hpp>
 #include <f1x/aasdk/Error/Error.hpp>
 
+#include "f1x/aasdk/Common/Log.hpp"
+
 namespace f1x
 {
 namespace aasdk
@@ -63,6 +65,7 @@ void MessageInStream::startReceive(ReceivePromise::Pointer promise)
 void MessageInStream::receiveFrameHeaderHandler(const common::DataConstBuffer& buffer)
 {
     FrameHeader frameHeader(buffer);
+    AASDK_LOG(debug) << "[MessageInStream] Processing Frame Header: Ch " << channelIdToString(frameHeader.getChannelId()) << " Fr " << frameTypeToString(frameHeader.getType());
 
     if(message_ == nullptr)
     {

@@ -16,10 +16,7 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
-#include <stdint.h>
-#include <string>
+#include <f1x/aasdk/Messenger/FrameType.hpp>
 
 namespace f1x
 {
@@ -28,15 +25,22 @@ namespace aasdk
 namespace messenger
 {
 
-enum class FrameType
-{
-    MIDDLE = 0,
-    FIRST = 1 << 0,
-    LAST = 1 << 1,
-    BULK = FIRST | LAST
-};
-
-std::string frameTypeToString(FrameType frameType);
+    std::string frameTypeToString(FrameType frameType)
+    {
+        switch(frameType)
+        {
+            case FrameType::MIDDLE:
+                return "MIDDLE";
+            case FrameType::FIRST:
+                return "FIRST";
+            case FrameType::LAST:
+                return "LAST";
+            case FrameType::BULK:
+                return "BULK";
+            default:
+                return "(null)";
+        }
+    }
 
 }
 }
