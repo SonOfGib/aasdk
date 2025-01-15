@@ -60,7 +60,8 @@ namespace aasdk::messenger {
     AASDK_LOG(debug) << "[MessageInStream] Processing Frame Header: Ch "
                      << channelIdToString(frameHeader.getChannelId()) << " Fr "
                      << frameTypeToString(frameHeader.getType());
-
+    AASDK_LOG(debug) << "[MessageInStream] [receiveFrameHeaderHandler] Debug message: "
+                     << common::dump(frameHeader.getData());
     isValidFrame_ = true;
 
     auto bufferedMessage = messageBuffer_.find(frameHeader.getChannelId());
@@ -123,6 +124,8 @@ namespace aasdk::messenger {
 
     FrameSize frameSize(buffer);
     frameSize_ = (int) frameSize.getFrameSize();
+    AASDK_LOG(debug) << "[MessageInStream] [receiveFrameSizeHandler] Frame Size: "
+                     << common::dump(frameSize.getData());
     transport_->receive(frameSize.getFrameSize(), std::move(transportPromise));
   }
 
@@ -147,6 +150,8 @@ namespace aasdk::messenger {
     // If this is the LAST frame or a BULK frame...
     if ((thisFrameType_ == FrameType::BULK || thisFrameType_ == FrameType::LAST) && isValidFrame_) {
       AASDK_LOG(debug) << "[MessageInStream] Resolving message.";
+      AASDK_LOG(debug) << "[MessageInStream] [receivePayloadHandler] Message Payload: "
+                       << common::dump(message_->getPayload());
       promise_->resolve(std::move(message_));
       promise_.reset();
       isResolved = true;

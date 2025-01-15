@@ -17,6 +17,8 @@
 
 #include <aasdk/USB/ConnectedAccessoriesEnumerator.hpp>
 
+#include "aasdk/Common/Log.hpp"
+
 
 namespace aasdk {
   namespace usb {
@@ -36,6 +38,7 @@ namespace aasdk {
           promise_ = std::move(promise);
 
           auto result = usbWrapper_.getDeviceList(deviceListHandle_);
+          AASDK_LOG(debug) << "[ConnectedAccessoriesEnumerator::enumerate] Get Device List Result " << result;
 
           if (result < 0) {
             promise_->reject(error::Error(error::ErrorCode::USB_LIST_DEVICES));

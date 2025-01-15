@@ -38,7 +38,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_INIT} -fPIC -Wall -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-g -O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-g -O3 -DNDEBUG")
 
 # Default to Release mode unless overridden with -DCMAKE_BUILD_TYPE=Debug on cmake command
 if(NOT CMAKE_BUILD_TYPE)
@@ -51,7 +51,7 @@ endif()
 # Paths
 set(sources_directory ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(include_directory ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(include_ut_directory ${CMAKE_CURRENT_SOURCE_DIR}/include_ut)
+set(include_ut_directory ${CMAKE_CURRENT_SOURCE_DIR}/unit_test)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -94,7 +94,7 @@ endif ()
 
 include(FindProtobuf)
 
-find_package(Boost REQUIRED COMPONENTS system log OPTIONAL_COMPONENTS unit_test_framework)
+find_package(Boost REQUIRED COMPONENTS system log_setup log)
 find_package(libusb-1.0 REQUIRED)
 find_package(OpenSSL REQUIRED)
 
@@ -189,6 +189,8 @@ if(AASDK_TEST)
     add_dependencies(aasdk_ut aasdk)
     target_link_libraries(aasdk_ut
             aasdk
+            ${GMOCK_MAIN_LIBRARY_PATH}
+            ${GTEST_MAIN_LIBRARY_PATH}
             ${GMOCK_LIBRARY_PATH}
             ${GTEST_LIBRARY_PATH})
 
